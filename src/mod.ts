@@ -1,4 +1,4 @@
-import { LucidEvolution, CML, coreToUtxo, valueToAssets, Lucid, Data, credentialToAddress } from "@lucid-evolution/lucid";
+import { LucidEvolution, CML, coreToUtxo, valueToAssets, Lucid, Data, credentialToAddress , slotToUnixTime} from "@lucid-evolution/lucid";
 
 enum ScriptRequirementsCode {
     Signer = 1,
@@ -27,21 +27,15 @@ async function createCIP106Transaction(evolution: LucidEvolution, scriptRequirem
             tx.addSigner(credentialToAddress(evolution.config().network!, {type: "Key", hash: requirement.value as string}))
         }
         if(requirement.code === ScriptRequirementsCode.Before) {
-            tx.validFrom(requirement.value as number)
+            tx.validTo(slotToUnixTime(evolution.config().network!, requirement.value as number))
         }
         if(requirement.code === ScriptRequirementsCode.After) {
-            tx.validTo(requirement.value as number)
+            tx.validFrom(slotToUnixTime(evolution.config().network!, (requirement.value as number) + 1))
         }
     }
     if(script) {
         tx.attach.Script({type: "Native", script})
     }
-
-
-
-
-
-
     return tx
 }
 

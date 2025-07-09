@@ -12,7 +12,7 @@
     "./lib/*": "./lib/*"
   },
   "dependencies": {
-    "@lucid-evolution/lucid": "^0.4.22",
+    "@lucid-evolution/lucid": "^0.4.29",
     "events": "^3.3.0"
   },
   "types": "./lib/index.d.ts",
